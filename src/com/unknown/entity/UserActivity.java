@@ -6,43 +6,48 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.http.client.ClientProtocolException;
-
 import com.unknown.entity.json.User;
-
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class UserActivity extends Activity {
+public class UserActivity extends Activity implements Runnable {
 
+	private List<User> users;
+	private ProgressDialog pd;
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_user);
-		createTabContent();
+		setTitle("DKP");
+
+		pd = ProgressDialog.show(this, "Working..", "Building tables", true, false);
+
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 
 	private void createTabContent() {
-		JsonHandler js = new JsonHandler();
-		try {
-			List<User> users = new ArrayList<User>();
-			users.addAll(js.parseJSONUsers());
+		Collections.sort(users, new Comparator<User>() {
 
-			Collections.sort(users, new Comparator<User>() {
+			@Override
+			public int compare(User t, User t1) {
+				return t.getDKP() < t1.getDKP() ? 1 : -1;
+			}
+		});
+		TableLayout table = (TableLayout) findViewById(R.id.TableLayout01);
 
-				@Override
-				public int compare(User t, User t1) {
-					return t.getDKP() < t1.getDKP() ? 1 : -1;
-				}
-			});
-			TableLayout table = (TableLayout) findViewById(R.id.TableLayout01);
-
-			table.setClickable(true);
-			for (User u : users) {
+		for (User u : users) {
+			if (u.isActive()) {
 				TableRow row = new TableRow(this);
 				TextView charname = new TextView(this);
 				TextView chardkp = new TextView(this);
@@ -86,7 +91,7 @@ public class UserActivity extends Activity {
 				} else {
 					chardkp.setTextColor(Color.GREEN);
 				}
-				
+
 				charclass.setPadding(0, 4, 0, 0);
 				charname.setTextSize(24);
 				chardkp.setTextSize(24);
@@ -98,6 +103,39 @@ public class UserActivity extends Activity {
 				row.setClickable(true);
 				table.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
+		}
+	}
+
+	@Override
+	public void run() {
+		try {
+			buildJSON();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			pd.dismiss();
+			createTabContent();
+
+		}
+	};
+
+	private void buildJSON() throws ClientProtocolException, IOException {
+		JsonHandler js = new JsonHandler();
+		this.users = new ArrayList<User>();
+		this.users.addAll(js.parseJSONUsers());
+		handler.sendEmptyMessage(0);
+	}
+
+	public void update() {
+		try {
+			buildJSON();
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
