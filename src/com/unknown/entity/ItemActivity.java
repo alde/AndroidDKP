@@ -28,10 +28,7 @@ public class ItemActivity extends Activity implements Runnable {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_item);
 		setTitle("Items");
-		pd = ProgressDialog.show(this, "Working..", "Building tables", true, false);
-
-		Thread thread = new Thread(this);
-		thread.start();
+		update();
 
 	}
 
@@ -94,12 +91,9 @@ public class ItemActivity extends Activity implements Runnable {
 	}
 	
 	public void update() {
-		try {
-			buildJSON();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		pd = ProgressDialog.show(this, "Working..", "Building Item tables", true, false);
+
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 }

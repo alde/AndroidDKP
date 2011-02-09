@@ -1,16 +1,13 @@
 package com.unknown.entity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.TabActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TabHost;
 
 public class dkp extends TabActivity {
@@ -43,17 +40,15 @@ public class dkp extends TabActivity {
 
 	public void refresh() {
 		Activity v = getCurrentActivity();
-		if (v.getTitle().equals("DKP")) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("DKP!")
-			       .setCancelable(false)
-			       .setNeutralButton("Close", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			                dialog.cancel();
-			           }
-			       });
-			AlertDialog alert = builder.create();
-			alert.show();
+		if (v.getTitle().toString().equalsIgnoreCase("DKP")) {
+			UserActivity ua = (UserActivity) v;
+			ua.update();
+		} else if (v.getTitle().toString().equalsIgnoreCase("Items")) {
+			ItemActivity ia = (ItemActivity) v;
+			ia.update();
+		} else if (v.getTitle().toString().equalsIgnoreCase("Raids")) {
+			RaidActivity ra = (RaidActivity) v;
+			ra.update();
 		}
 	}
 

@@ -25,9 +25,7 @@ public class RaidActivity extends Activity implements Runnable {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_raid);
 		setTitle("Raids");
-		pd = ProgressDialog.show(this, "Working..", "Building tables", true, false);
-		Thread thread = new Thread(this);
-		thread.start();
+		update();
 	}
 
 	private void createTabContent() {
@@ -89,12 +87,8 @@ public class RaidActivity extends Activity implements Runnable {
 	}
 	
 	public void update() {
-		try {
-			buildJSON();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		pd = ProgressDialog.show(this, "Working..", "Building Raid tables", true, false);
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 }
