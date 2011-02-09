@@ -1,5 +1,5 @@
 
-package com.unknown.entity;
+package com.unknown.entity.json;
 
 public class CharacterItem {
 

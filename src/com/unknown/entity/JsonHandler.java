@@ -5,9 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.util.Collection;
-import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -20,11 +18,14 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.unknown.entity.json.Items;
+import com.unknown.entity.json.Raid;
+import com.unknown.entity.json.User;
 
 public class JsonHandler {
-	private static String TAG = JsonHandler.class.getSimpleName();
-	private static final int CONNECTION_TIMEOUT = 120000;
-	private static final int SOCKET_TIMEOUT = 120000;
+	private String TAG = JsonHandler.class.getSimpleName();
+	private final int CONNECTION_TIMEOUT = 120000;
+	private final int SOCKET_TIMEOUT = 120000;
 
 	public HttpParams getTimeoutHttpParams() {
 		HttpParams params = new BasicHttpParams();
@@ -40,7 +41,6 @@ public class JsonHandler {
 		int statusCode = response.getStatusLine().getStatusCode();
 		if (statusCode != 200) {
 			Log.e(TAG, "Failed to get stream for: " + url);
-			throw new IOException("Failed to get stream for: " + url);
 		}
 		return response.getEntity().getContent();
 	}
@@ -51,11 +51,24 @@ public class JsonHandler {
 		Reader r = new InputStreamReader(getInputStreamFromUrl(url));
 		Type collectionType = new TypeToken<Collection<User>>() {}.getType();
 		Collection<User> target = gson.fromJson(r, collectionType);
-		Log.e(TAG, " :: " + target);
-		for (User u : target) {
-			System.out.println(u.getUsername());
-			Log.e(TAG, " :: " + u.getUsername());
-		}
+		return target;
+	}
+	
+	public Collection<Items> parseJSONItems() throws ClientProtocolException, IOException {
+		Gson gson = new Gson();
+		String url = "http://unknown-entity.com:4848/GetItemsJSON";
+		Reader r = new InputStreamReader(getInputStreamFromUrl(url));
+		Type collectionType = new TypeToken<Collection<Items>>() {}.getType();
+		Collection<Items> target = gson.fromJson(r, collectionType);
+		return target;
+	}
+	
+	public Collection<Raid> parseJSONRaids() throws ClientProtocolException, IOException {
+		Gson gson = new Gson();
+		String url = "http://unknown-entity.com:4848/GetRaidsJSON";
+		Reader r = new InputStreamReader(getInputStreamFromUrl(url));
+		Type collectionType = new TypeToken<Collection<Raid>>() {}.getType();
+		Collection<Raid> target = gson.fromJson(r, collectionType);
 		return target;
 	}
 }

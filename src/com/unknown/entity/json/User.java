@@ -1,4 +1,4 @@
-package com.unknown.entity;
+package com.unknown.entity.json;
 
 import java.util.ArrayList;
 import java.util.Collection;

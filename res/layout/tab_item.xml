@@ -7,7 +7,7 @@
 		android:stretchColumns="0">
 
 		<TableRow android:id="@+id/TableRow01" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="40px" android:padding="10px">
 			<TextView android:id="@+id/TextView01" android:layout_width="fill_parent"
 				android:layout_height="wrap_content"></TextView>
 
