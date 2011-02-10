@@ -13,13 +13,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class UserActivity extends Activity implements Runnable {
+public class UserActivity extends Activity implements Runnable, View.OnClickListener {
 
 	private List<User> users;
 	private ProgressDialog pd;
@@ -41,7 +43,7 @@ public class UserActivity extends Activity implements Runnable {
 			}
 		});
 		TableLayout table = (TableLayout) findViewById(R.id.TableLayout01);
-
+		table.removeAllViews();
 		for (User u : users) {
 			if (u.isActive()) {
 				TableRow row = new TableRow(this);
@@ -88,6 +90,7 @@ public class UserActivity extends Activity implements Runnable {
 					chardkp.setTextColor(Color.GREEN);
 				}
 
+				row.setId(u.getId());
 				charclass.setPadding(0, 4, 0, 0);
 				charname.setTextSize(24);
 				chardkp.setTextSize(24);
@@ -96,7 +99,7 @@ public class UserActivity extends Activity implements Runnable {
 				row.addView(chardkp);
 
 				row.setMinimumHeight(40);
-				row.setClickable(true);
+				row.setOnClickListener(this);
 				table.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
 		}
@@ -134,5 +137,24 @@ public class UserActivity extends Activity implements Runnable {
 
 		Thread thread = new Thread(this);
 		thread.start();
+	}
+
+	@Override
+	public void onClick(View v) {
+		TableRow tr = (TableRow) v;
+		int id = tr.getId();
+		User usr = new User();
+		for (User u : users) {
+			if (u.getId() == id) {
+				usr = u;
+				break;
+			}
+		}
+		String foo =  usr.getUsername() + "\n\nDKP: " + 
+		usr.getDKP() + "\nDKP Earned: " + usr.getDKPEarned() +
+		"\nDKP Spent: " +usr.getDKPSpent() +
+		"\n\nShares: " + usr.getShares();
+		Toast toast = Toast.makeText(this, foo, Toast.LENGTH_LONG);
+		toast.show();
 	}
 }

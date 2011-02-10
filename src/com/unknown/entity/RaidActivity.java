@@ -30,7 +30,7 @@ public class RaidActivity extends Activity implements Runnable {
 
 	private void createTabContent() {
 		TableLayout table = (TableLayout) findViewById(R.id.TableLayout01);
-
+		table.removeAllViews();
 			for (Raid r : raids) {
 				TableRow row = new TableRow(this);
 				TextView raid = new TextView(this);

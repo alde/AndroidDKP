@@ -31,8 +31,9 @@ public final class R {
         public static final int refresh=0x7f020011;
         public static final int rogue=0x7f020012;
         public static final int shaman=0x7f020013;
-        public static final int warlock=0x7f020014;
-        public static final int warrior=0x7f020015;
+        public static final int tablerow=0x7f020014;
+        public static final int warlock=0x7f020015;
+        public static final int warrior=0x7f020016;
     }
     public static final class id {
         public static final int ImageView01=0x7f060006;
