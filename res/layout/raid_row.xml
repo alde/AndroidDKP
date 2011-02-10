@@ -1,0 +1,9 @@
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RaidTableRow" android:layout_width="wrap_content"
+	android:layout_height="wrap_content" android:background="@drawable/ic_trow">
+	<TextView android:id="@+id/RaidInfo" android:layout_width="fill_parent"
+		android:layout_height="wrap_content"></TextView>
+
+	<TextView android:id="@+id/RaidDate" android:layout_width="fill_parent"
+		android:layout_height="wrap_content"></TextView>
+</TableRow>

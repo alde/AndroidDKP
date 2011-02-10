@@ -9,10 +9,12 @@ import org.apache.http.client.ClientProtocolException;
 import com.unknown.entity.json.User;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -25,12 +27,15 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 
 	private List<User> users;
 	private ProgressDialog pd;
+	private Toast toast;
+	private LayoutInflater inflater;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_user);
 		setTitle("DKP");
+		inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		update();
 	}
 
@@ -42,15 +47,16 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 				return t.getDKP() < t1.getDKP() ? 1 : -1;
 			}
 		});
-		TableLayout table = (TableLayout) findViewById(R.id.TableLayout01);
+		TableLayout table = (TableLayout) findViewById(R.id.UsersTable);
+
 		table.removeAllViews();
 		for (User u : users) {
 			if (u.isActive()) {
-				TableRow row = new TableRow(this);
-				TextView charname = new TextView(this);
-				TextView chardkp = new TextView(this);
-				ImageView charclass = new ImageView(this);
-
+				TableRow row = (TableRow)inflater.inflate(R.layout.user_row, null);
+				TextView charname = ((TextView)row.findViewById(R.id.UserName));
+				TextView chardkp = ((TextView)row.findViewById(R.id.UserDKP));
+				ImageView charclass = ((ImageView)row.findViewById(R.id.UserImage));
+				
 				charname.setText("  " + u.getUsername());
 				if (u.getRole().equalsIgnoreCase("deathknight")) {
 					charclass.setImageResource(R.drawable.deathknight);
@@ -90,15 +96,10 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 					chardkp.setTextColor(Color.GREEN);
 				}
 
-				row.setId(u.getId());
+				row.setTag(u);
 				charclass.setPadding(0, 4, 0, 0);
 				charname.setTextSize(24);
 				chardkp.setTextSize(24);
-				row.addView(charclass);
-				row.addView(charname);
-				row.addView(chardkp);
-
-				row.setMinimumHeight(40);
 				row.setOnClickListener(this);
 				table.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
@@ -124,7 +125,7 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 
 		}
 	};
-
+	
 	private void buildJSON() throws ClientProtocolException, IOException {
 		JsonHandler js = new JsonHandler();
 		this.users = new ArrayList<User>();
@@ -141,20 +142,17 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 
 	@Override
 	public void onClick(View v) {
-		TableRow tr = (TableRow) v;
-		int id = tr.getId();
-		User usr = new User();
-		for (User u : users) {
-			if (u.getId() == id) {
-				usr = u;
-				break;
-			}
+		if (toast != null) {
+			this.toast.cancel();
 		}
+		TableRow tr = (TableRow) v;
+		User usr = (User) tr.getTag();
+	
 		String foo =  usr.getUsername() + "\n\nDKP: " + 
 		usr.getDKP() + "\nDKP Earned: " + usr.getDKPEarned() +
 		"\nDKP Spent: " +usr.getDKPSpent() +
 		"\n\nShares: " + usr.getShares();
-		Toast toast = Toast.makeText(this, foo, Toast.LENGTH_LONG);
-		toast.show();
+		this.toast = Toast.makeText(this, foo, Toast.LENGTH_LONG);
+		this.toast.show();
 	}
 }
