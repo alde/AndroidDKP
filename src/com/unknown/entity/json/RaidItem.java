@@ -5,7 +5,7 @@ public class RaidItem {
         private boolean heroic;
         private int id;
         private String looter;
-        private String name;
+        private String itemname;
         private double price;
         private String quality;
 
@@ -14,7 +14,7 @@ public class RaidItem {
         }
         
         public RaidItem(String itemname, String looter, int itemid, double price, boolean isheroic, String quality) {
-                this.name = itemname;
+                this.itemname = itemname;
                 this.looter = looter;
                 this.id = itemid;
                 this.price = price;
@@ -49,12 +49,12 @@ public class RaidItem {
                 this.looter = looter;
         }
 
-        public String getName() {
-                return name;
+        public String getItemname() {
+                return itemname;
         }
 
-        public void setName(String name) {
-                this.name = name;
+        public void setItemname(String name) {
+                this.itemname = name;
         }
 
         public double getPrice() {

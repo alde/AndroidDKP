@@ -34,7 +34,7 @@ public class ItemActivity extends Activity implements Runnable, View.OnClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_item);
 		setTitle("Items");
-		inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		update();
 	}
 
@@ -43,15 +43,15 @@ public class ItemActivity extends Activity implements Runnable, View.OnClickList
 		TableLayout table = (TableLayout) findViewById(R.id.ItemsTable);
 		table.removeAllViews();
 		for (Items i : items) {
-			TableRow row = (TableRow)inflater.inflate(R.layout.item_row, null);
-			TextView itemname = ((TextView)row.findViewById(R.id.ItemName));
-			TextView price = ((TextView)row.findViewById(R.id.ItemPrice));
-			TextView pricehc = ((TextView)row.findViewById(R.id.ItemPriceHC));
-			
+			TableRow row = (TableRow) inflater.inflate(R.layout.item_row, null);
+			TextView itemname = ((TextView) row.findViewById(R.id.ItemName));
+			TextView price = ((TextView) row.findViewById(R.id.ItemPrice));
+			TextView pricehc = ((TextView) row.findViewById(R.id.ItemPriceHC));
+
 			if (i.getItemname().length() < 30) {
-				itemname.setText(i.getItemname());
+				itemname.setText(" " + i.getItemname());
 			} else {
-				itemname.setText(i.getItemname().substring(0, 30) + "...");
+				itemname.setText(" " + i.getItemname().substring(0, 30) + "...");
 			}
 			if (i.getQuality().equalsIgnoreCase("epic")) {
 				itemname.setTextColor(Color.parseColor("#9035CF"));
@@ -108,7 +108,7 @@ public class ItemActivity extends Activity implements Runnable, View.OnClickList
 		}
 		TableRow tr = (TableRow) v;
 		Items itm = (Items) tr.getTag();
-		
+
 		List<ItemLooter> looters = itm.getLooterList();
 		Collections.reverse(looters);
 		String foo = itm.getItemname();
@@ -129,6 +129,6 @@ public class ItemActivity extends Activity implements Runnable, View.OnClickList
 
 		this.toast = Toast.makeText(this, foo, Toast.LENGTH_LONG);
 		this.toast.show();
-		
+
 	}
 }

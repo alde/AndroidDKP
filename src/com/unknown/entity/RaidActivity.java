@@ -2,6 +2,8 @@ package com.unknown.entity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 import android.app.Activity;
@@ -18,8 +20,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.unknown.entity.json.Raid;
-import com.unknown.entity.json.RaidItem;
-import com.unknown.entity.json.RaidReward;
 
 public class RaidActivity extends Activity implements Runnable, View.OnClickListener {
 
@@ -45,21 +45,15 @@ public class RaidActivity extends Activity implements Runnable, View.OnClickList
 			TextView raid = ((TextView) row.findViewById(R.id.RaidInfo));
 			TextView date = ((TextView) row.findViewById(R.id.RaidDate));
 			String raidname = "";
-			String comment = "";
 			if (r.getRaidname().length() < 30) {
-				raidname = r.getRaidname();
+				raidname = " " + r.getRaidname();
 			} else {
-				raidname = r.getRaidname().substring(0, 30) + "...";
-			}
-			if (r.getComment().length() < 30) {
-				comment = r.getComment();
-			} else {
-				comment = r.getComment().substring(0, 30) + "...";
+				raidname = " " + r.getRaidname().substring(0, 28) + "...";
 			}
 			row.setTag(r);
-			raid.setText(raidname + "\n  " + comment);
+			raid.setText(raidname);
 			date.setText(r.getDate().substring(0, 10) + " ");
-			
+
 			row.setOnClickListener(this);
 			table.addView(row, new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		}
@@ -89,6 +83,12 @@ public class RaidActivity extends Activity implements Runnable, View.OnClickList
 		JsonHandler js = new JsonHandler();
 		this.raids = new ArrayList<Raid>();
 		this.raids.addAll(js.parseJSONRaids());
+		Collections.sort(raids, new Comparator<Raid>() {
+                        @Override
+                        public int compare(Raid t, Raid t1) {
+                                return t1.getDate().compareTo(t.getDate());
+                        }
+                });
 		handler.sendEmptyMessage(0);
 	}
 
@@ -106,28 +106,7 @@ public class RaidActivity extends Activity implements Runnable, View.OnClickList
 		TableRow tr = (TableRow) v;
 		Raid raid = (Raid) tr.getTag();
 
-		List<RaidItem> ri = raid.getRaidItems();
-		List<RaidReward> rr = raid.getRaidRewards();
-		String foo = "";
-//		if (!ri.isEmpty()) {
-			foo = "Loot:";
-			for (RaidItem r : ri) {
-				if (r.getName().length() > 10)
-					foo += "\n" + r.getName().substring(0, 10) + "..." + " looted by " + r.getLooter();
-				else
-					foo += "\n" + r.getName() + " looted by " + r.getLooter();
-			}
-//		}
-//		if (!rr.isEmpty()) {
-			foo = "\n\nRewards:";
-			for (RaidReward r : rr) {
-				if (r.getComment().length() > 10)
-					foo += "\n" + r.getComment().substring(0, 10) + "..." + " - " + r.getShares() + " shares.";
-				else
-					foo += "\n" + r.getComment() + " - " + r.getShares() + " shares.";
-			}
-//		}
-
+		String foo = "\nRaid: " + raid.getRaidname() + "\n\nComment: " + raid.getComment() + "\n\nDate: " + raid.getDate();
 		this.toast = Toast.makeText(this, foo, Toast.LENGTH_LONG);
 		this.toast.show();
 
