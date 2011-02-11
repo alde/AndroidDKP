@@ -10,6 +10,7 @@ import com.unknown.entity.json.User;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,13 +22,11 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class UserActivity extends Activity implements Runnable, View.OnClickListener {
 
 	private List<User> users;
 	private ProgressDialog pd;
-	private Toast toast;
 	private LayoutInflater inflater;
 
 	@Override
@@ -142,17 +141,11 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 
 	@Override
 	public void onClick(View v) {
-		if (toast != null) {
-			this.toast.cancel();
-		}
 		TableRow tr = (TableRow) v;
 		User usr = (User) tr.getTag();
-	
-		String foo =  usr.getUsername() + "\n\nDKP: " + 
-		usr.getDKP() + "\nDKP Earned: " + usr.getDKPEarned() +
-		"\nDKP Spent: " +usr.getDKPSpent() +
-		"\n\nShares: " + usr.getShares();
-		this.toast = Toast.makeText(this, foo, Toast.LENGTH_LONG);
-		this.toast.show();
+		Intent intent = new Intent().setClass(this, UserInfoActivity.class);
+
+		intent.putExtra("user", usr);
+		startActivity(intent);
 	}
 }

@@ -18,7 +18,7 @@
 			android:icon="@drawable/ic_tab_item" android:screenOrientation="portrait"></activity>
 		<activity android:name="RaidActivity" android:label="Raids"
 			android:icon="@drawable/ic_tab_raid" android:screenOrientation="portrait"></activity>
-
+		<activity android:name="UserInfoActivity" android:theme="@android:style/Theme.NoTitleBar" />
 
 	</application>
 </manifest>

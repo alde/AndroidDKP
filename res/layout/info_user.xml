@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/UserInfoLinearView" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:orientation="vertical">
+	<TableLayout android:id="@+id/UserInfo"
+		android:layout_height="wrap_content" android:layout_width="match_parent">
+		<TableRow android:layout_height="wrap_content" android:id="@+id/UserInfoRow"
+			android:layout_width="match_parent" android:layout_marginBottom="10dip">
+			<ImageView android:layout_width="wrap_content" android:id="@+id/UserClassImage"
+				android:layout_height="wrap_content" android:src="@drawable/icon"
+				android:paddingTop="8dip"></ImageView>
+			<TextView android:id="@+id/cName" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="TextView"
+				android:textSize="28px" android:typeface="serif" android:textStyle="italic"></TextView>
+		</TableRow>
+		<TableRow android:id="@+id/SharesRow" android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TextView android:text="Shares: " android:id="@+id/textView1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/cShares" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="TextView"></TextView>
+		</TableRow>
+		<TableRow android:id="@+id/DkpRow" android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TextView android:text="DKP: " android:id="@+id/textView1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/cDkp" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="TextView"></TextView>
+		</TableRow>
+		<TableRow android:id="@+id/EarnedRow" android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TextView android:text="DKP Earned: " android:id="@+id/textView1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/cEarnedDkp"
+				android:layout_height="wrap_content" android:layout_width="wrap_content"
+				android:text="TextView"></TextView>
+		</TableRow>
+		<TableRow android:id="@+id/SpentRow" android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TextView android:text="DKP Spent: " android:id="@+id/textView1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/cSpentDkp" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="TextView"></TextView>
+		</TableRow>
+	</TableLayout>
+	<TextView android:id="@+id/LootLabel" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Loot:"
+		android:paddingTop="5dip" android:layout_below="@+id/UserInfo"></TextView>
+	<ScrollView android:id="@+id/LootView" android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:layout_below="@+id/LootLabel">
+		<TableLayout android:id="@+id/LootTable"
+			android:layout_height="wrap_content" android:layout_width="match_parent">
+		</TableLayout>
+	</ScrollView>
+	<ImageButton android:id="@+id/closeButton" android:onClick="close"
+		android:text="Close" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:paddingTop="5dip"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true" android:src="@drawable/close"
+		android:background="@null"></ImageButton>
+</RelativeLayout>

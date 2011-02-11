@@ -1,9 +1,15 @@
 
 package com.unknown.entity.json;
 
-public class CharacterItem {
+import java.io.Serializable;
 
-        private int id;
+public class CharacterItem implements Serializable {
+
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8132458937184267168L;
+	private int id;
         private String name;
         private double price;
         boolean heroic;
