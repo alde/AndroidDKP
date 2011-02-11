@@ -34,8 +34,16 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_user);
 		setTitle("DKP");
-		inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		update();
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	private void createTabContent() {
@@ -51,11 +59,11 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 		table.removeAllViews();
 		for (User u : users) {
 			if (u.isActive()) {
-				TableRow row = (TableRow)inflater.inflate(R.layout.user_row, null);
-				TextView charname = ((TextView)row.findViewById(R.id.UserName));
-				TextView chardkp = ((TextView)row.findViewById(R.id.UserDKP));
-				ImageView charclass = ((ImageView)row.findViewById(R.id.UserImage));
-				
+				TableRow row = (TableRow) inflater.inflate(R.layout.user_row, null);
+				TextView charname = ((TextView) row.findViewById(R.id.UserName));
+				TextView chardkp = ((TextView) row.findViewById(R.id.UserDKP));
+				ImageView charclass = ((ImageView) row.findViewById(R.id.UserImage));
+
 				charname.setText("  " + u.getUsername());
 				if (u.getRole().equalsIgnoreCase("deathknight")) {
 					charclass.setImageResource(R.drawable.deathknight);
@@ -124,7 +132,7 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 
 		}
 	};
-	
+
 	private void buildJSON() throws ClientProtocolException, IOException {
 		JsonHandler js = new JsonHandler();
 		this.users = new ArrayList<User>();
@@ -134,7 +142,6 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 
 	public void update() {
 		pd = ProgressDialog.show(this, "Working..", "Building DKP tables", true, false);
-
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -144,7 +151,6 @@ public class UserActivity extends Activity implements Runnable, View.OnClickList
 		TableRow tr = (TableRow) v;
 		User usr = (User) tr.getTag();
 		Intent intent = new Intent().setClass(this, UserInfoActivity.class);
-
 		intent.putExtra("user", usr);
 		startActivity(intent);
 	}
