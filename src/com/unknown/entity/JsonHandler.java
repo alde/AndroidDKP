@@ -47,7 +47,7 @@ public class JsonHandler {
 
 	public Collection<User> parseJSONUsers() throws ClientProtocolException, IOException {
 		Gson gson = new Gson();
-		String url = "http://unknown-entity.com:4848/GetUsersJSON";
+		String url = "http://dkp.unknown-entity.com/GetUsersJSON";
 		Reader r = new InputStreamReader(getInputStreamFromUrl(url));
 		Type collectionType = new TypeToken<Collection<User>>() {}.getType();
 		Collection<User> target = gson.fromJson(r, collectionType);
@@ -56,7 +56,7 @@ public class JsonHandler {
 	
 	public Collection<Items> parseJSONItems() throws ClientProtocolException, IOException {
 		Gson gson = new Gson();
-		String url = "http://unknown-entity.com:4848/GetItemsJSON";
+		String url = "http://dkp.unknown-entity.com/GetItemsJSON";
 		Reader r = new InputStreamReader(getInputStreamFromUrl(url));
 		Type collectionType = new TypeToken<Collection<Items>>() {}.getType();
 		Collection<Items> target = gson.fromJson(r, collectionType);
@@ -65,7 +65,7 @@ public class JsonHandler {
 	
 	public Collection<Raid> parseJSONRaids() throws ClientProtocolException, IOException {
 		Gson gson = new Gson();
-		String url = "http://unknown-entity.com:4848/GetRaidsJSON";
+		String url = "http://dkp.unknown-entity.com/GetRaidsJSON";
 		Reader r = new InputStreamReader(getInputStreamFromUrl(url));
 		Type collectionType = new TypeToken<Collection<Raid>>() {}.getType();
 		Collection<Raid> target = gson.fromJson(r, collectionType);

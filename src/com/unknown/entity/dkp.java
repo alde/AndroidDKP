@@ -1,5 +1,7 @@
 package com.unknown.entity;
 
+import com.unknown.entity.R;
+
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;

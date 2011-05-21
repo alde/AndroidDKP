@@ -6,7 +6,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.http.client.ClientProtocolException;
+
+import com.unknown.entity.UserInfoActivity;
 import com.unknown.entity.json.User;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
